@@ -1,0 +1,19 @@
+{
+  "name": "glisy",
+  "version": "0.0.1",
+  "repo": "glisy/geometry",
+  "description": "GlisyGeometry",
+  "keywords": [
+    "glisy",
+    "geometry"
+  ],
+  "src": [
+    "include/glisy/geometry.h",
+    "src/geometry.c"
+  ],
+  "dependencies": {
+    "glisy/vao": "master",
+    "glisy/buffer": "master",
+    "glisy/program": "master"
+  }
+}
