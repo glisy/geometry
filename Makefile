@@ -1,5 +1,5 @@
 ## Project settings
-PROJECT_NAME ?= GlisyGeomtry
+PROJECT_NAME ?= GlisyGeometry
 PREFIX ?= /usr/local
 
 ## Project command dependencies
