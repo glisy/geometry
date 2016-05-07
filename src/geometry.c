@@ -81,7 +81,8 @@ glisyGeometryUpdate(GlisyGeometry *geometry) {
       }
 
       // use current attribut index as attribute location
-      attr->location = i;
+      attr->location = glGetAttribLocation(pid, attr->name);
+      if (-1 == attr->location) { attr->location = i; }
       // bind attribute to geometry program or the current
       // active program by location and attribute name
       glBindAttribLocation(pid, attr->location, attr->name);
