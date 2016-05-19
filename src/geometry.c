@@ -67,6 +67,10 @@ glisyGeometryUpdate(GlisyGeometry *geometry) {
   if (!geometry) return;
   if (!geometry->dirty) return;
 
+  if (geometry->program) {
+    glisyProgramBind(geometry->program);
+  }
+
   for (int i = 0; i < geometry->vao.length; ++i) {
     GlisyVAOAttribute *attr = &geometry->vao.attributes[i];
 
@@ -80,12 +84,11 @@ glisyGeometryUpdate(GlisyGeometry *geometry) {
         glGetIntegerv(GL_CURRENT_PROGRAM, &pid);
       }
 
-      // use current attribut index as attribute location
       attr->location = glGetAttribLocation(pid, attr->name);
-      if (-1 == attr->location) { attr->location = i; }
-      // bind attribute to geometry program or the current
-      // active program by location and attribute name
-      glBindAttribLocation(pid, attr->location, attr->name);
+
+      if (attr->location > -1) {
+        glBindAttribLocation(pid, attr->location, attr->name);
+      }
     }
   }
 
@@ -138,6 +141,7 @@ glisyGeometryAttr(GlisyGeometry *geometry,
 
   attr->name = name;
   geometry->dirty = GL_TRUE;
+  glisyGeometryBind(geometry, 0);
   _upsertAttribute(geometry, attr);
 }
 
@@ -169,14 +173,12 @@ glisyGeometryBind(GlisyGeometry *geometry, GlisyProgram *program) {
   // set geometry program if given, otherwise the geometry
   // update will use the current active program
   if (program) geometry->program = program;
-  glisyGeometryUpdate(geometry);
   glisyVAOBind(&geometry->vao);
 }
 
 void
 glisyGeometryUnbind(GlisyGeometry *geometry) {
   if (!geometry) return;
-  glisyGeometryUpdate(geometry);
   glisyVAOUnbind(&geometry->vao);
 }
 
