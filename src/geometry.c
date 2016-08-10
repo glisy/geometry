@@ -52,13 +52,13 @@ glisyGeometryInit(GlisyGeometry *geometry) {
   geometry->dirty = GL_FALSE;
   geometry->usage = GL_STATIC_DRAW;
 
+  // index buffer object (GL_ELEMENT_ARRAY_BUFFER)
+  glGenBuffers(1, &geometry->ibo);
   glisyVAOInit(&geometry->vao);
 }
 
 void
 glisyGeometryUpdate(GlisyGeometry *geometry) {
-  // index buffer object (GL_ELEMENT_ARRAY_BUFFER)
-  GLuint ibo;
   // geometry program ID or current active program
   GLint pid;
 
@@ -111,8 +111,7 @@ glisyGeometryUpdate(GlisyGeometry *geometry) {
         sizeof(GLushort));
 
     glisyVAOUpdate(&geometry->vao, &geometry->index);
-    glGenBuffers(1, &ibo);
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, geometry->ibo);
     glBufferData(GL_ELEMENT_ARRAY_BUFFER,
                  // geometry vertex faces (indices)
                  facesSize, geometry->faces,

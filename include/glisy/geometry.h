@@ -22,6 +22,7 @@ struct GlisyGeometry {
   GLboolean dirty;
   GLboolean useElements;
   GLuint faceslen;
+  GLuint ibo;
   GLenum elementsType;
   GLenum usage;
   GLvoid *faces;
